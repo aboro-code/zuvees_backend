@@ -1,9 +1,8 @@
-// routes/admin.js
 const express = require('express');
 const router = express.Router();
 const Order = require('../models/Order');
 
-// Placeholder for admin authorization middleware (you can define it)
+// Placeholder for admin authorization middleware 
 const isAdmin = (req, res, next) => {
   if (req.user && req.user.isAdmin) {
     return next();

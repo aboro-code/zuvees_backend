@@ -1,9 +1,8 @@
-// routes/order.js
 const express = require('express');
 const router = express.Router();
 const Order = require('../models/Order');
 
-// Middleware to check if the user is authenticated
+// Middleware to check if user is authenticated
 const isAuthenticated = (req, res, next) => {
   if (!req.isAuthenticated()) {
     return res.status(401).json({ message: 'Unauthorized' });
@@ -11,7 +10,7 @@ const isAuthenticated = (req, res, next) => {
   next();
 };
 
-// Get all orders
+// Get all order
 router.get('/', async (req, res) => {
   try {
     const orders = await Order.find().populate('productId');
