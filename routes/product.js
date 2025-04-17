@@ -25,16 +25,16 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Create a new product (future enhancement)
+// Create new product
 router.post('/', async (req, res) => {
-  const { name, description, price, category } = req.body;
+  const { name, description, price, category, stock } = req.body;
 
-  if (!name || !description || !price || !category) {
+  if (!name || !description || !price || !category || !stock) {
     return res.status(400).json({ message: 'Missing required fields' });
   }
 
   try {
-    const newProduct = new Product({ name, description, price, category });
+    const newProduct = new Product({ name, description, price, category, stock });
     await newProduct.save();
     res.status(201).json(newProduct);
   } catch (err) {

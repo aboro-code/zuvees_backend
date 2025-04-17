@@ -9,6 +9,10 @@ const UserSchema = new mongoose.Schema({
   displayName: String,
   email: String,
   profilePic: String, // Store the URL for user Google profile picture
+  isRider: {
+    type: Boolean,
+    default: false, // Default value is false, indicating the user is not a rider by default
+  },
 });
 
 UserSchema.statics.findOrCreate = async function(profile) {

@@ -5,7 +5,7 @@ const OrderSchema = new mongoose.Schema({
   customerName: { type: String, required: true },
   size: { type: String, required: true },
   color: { type: String, required: true },
-  status: { type: String, default: 'Paid' },
+  status: { type: String, default: 'Unpaid' },
 });
 
 const Order = mongoose.model('Order', OrderSchema);

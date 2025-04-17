@@ -16,6 +16,10 @@ app.use(cors({
   origin: process.env.FRONTEND_URL,
   credentials: true
 }));
+app.get('/api/hello', (req, res) => {
+  res.json({ message: 'Hello from the backend!' });
+});
+
 app.use(express.json());
 app.use(session({
   secret: process.env.SESSION_SECRET,

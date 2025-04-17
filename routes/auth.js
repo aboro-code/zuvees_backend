@@ -8,11 +8,26 @@ router.get('/google', passport.authenticate('google', { scope: ['profile', 'emai
 // Google callback route
 router.get(
   '/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login' }), // If login fail, redirect to /login
+  passport.authenticate('google', { failureRedirect: '/login' }),
   (req, res) => {
-    // After successful login, redirect to the frontend dashboard or profile
     res.redirect(process.env.FRONTEND_URL || '/dashboard');
   }
 );
+
+// Logout route
+router.get('/logout', (req, res) => {
+  req.logout(() => {
+    res.redirect(process.env.FRONTEND_URL || '/');
+  });
+});
+
+// Check if user is authenticated
+router.get('/me', (req, res) => {
+  if (req.isAuthenticated()) {
+    res.json(req.user);
+  } else {
+    res.status(401).json({ message: 'Unauthorized' });
+  }
+});
 
 module.exports = router;

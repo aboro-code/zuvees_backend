@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Order = require('../models/Order');
 
-// Middleware to check if user is authenticated
+// Auth check middleware
 const isAuthenticated = (req, res, next) => {
   if (!req.isAuthenticated()) {
     return res.status(401).json({ message: 'Unauthorized' });
@@ -10,7 +10,7 @@ const isAuthenticated = (req, res, next) => {
   next();
 };
 
-// Get all order
+// Get all orders
 router.get('/', async (req, res) => {
   try {
     const orders = await Order.find().populate('productId');
@@ -23,9 +23,10 @@ router.get('/', async (req, res) => {
 
 // Create new order
 router.post('/', isAuthenticated, async (req, res) => {
-  const { productId, customerName, size, color, status } = req.body;
+  const { productId, customerName, size, color } = req.body;
+  const status = req.body.status || 'Paid';
 
-  if (!productId || !customerName || !size || !color || !status) {
+  if (!productId || !customerName || !size || !color) {
     return res.status(400).json({ message: 'Missing required fields' });
   }
 

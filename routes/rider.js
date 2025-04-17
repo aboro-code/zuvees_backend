@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Order = require('../models/Order');
+const isRider = require('../middleware/isRider');
 
 // Rider can view assigned orders (status = Shipped)
-router.get('/', async (req, res) => {
+router.get('/', isRider, async (req, res) => {
   try {
     const orders = await Order.find({ status: 'Shipped' }).populate('productId');
     res.json(orders);
@@ -13,14 +14,13 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Rider update status
-router.patch('/:id', async (req, res) => {
+// Rider can update order status (to Delivered)
+router.patch('/:id', isRider, async (req, res) => {
   try {
     const { status } = req.body;
     const order = await Order.findById(req.params.id);
     if (!order) return res.status(404).json({ message: 'Order not found' });
 
-    // Check if new status is valid (Shipped or Delivered)
     if (status !== 'Delivered' && status !== 'Shipped') {
       return res.status(400).json({ message: 'Invalid status' });
     }
